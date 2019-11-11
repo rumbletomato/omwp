@@ -9,7 +9,8 @@ OMWP created for education goals of its author to get more deep understanding of
 ## Table of contents
 1. [Roadmap](#roadmap)
 2. [Main interaction](#main-interaction)
-3. [Example](#example)
+3. [Class diagram](#class-diagram)
+4. [Example](#example)
 
 ## Roadmap 
 [Roadmap of implementation OMWP project](docs/ROADMAP.md)
@@ -19,6 +20,10 @@ Main interaction diagram with WSGI Server
 
 ![Image](docs/omwp_main_interaction.png)
 
+## Class diagram
 
+Class diagram
+
+![Image](docs/omwp_class_diagram.png)
 ## Example
 [Example of application, based on OMWP project](example/README.md)
