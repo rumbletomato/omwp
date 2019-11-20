@@ -9,7 +9,7 @@ class OMWPApplication:
         self.routing_service = OMWPRoutingService()
 
     def __call__(self, environ: dict, start_response: Callable) -> List[bytes]:
-        path = environ['PATH_INFO']
+        path = environ.get('PATH_INFO', '')
         handler = self.routing_service.get_handler(path)
 
         result: OMWPHandlerResult = handler()
@@ -17,5 +17,24 @@ class OMWPApplication:
 
         return [result.payload]
 
-    def route(self, path: str, handler: Callable) -> None:
+    def add_route(self, path: str, handler: Callable) -> None:
+        """
+        Add route to application
+
+        :param path: the URL as string
+        :param handler: the callable object to handle request
+        """
         self.routing_service.route(path, handler)
+
+    def route(self, path: str) -> Callable:
+        """
+        Decorator based routing
+
+        :param path: the URL as string
+        """
+
+        def decorator(f):
+            self.add_route(path, f)
+            return f
+
+        return decorator

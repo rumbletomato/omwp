@@ -18,3 +18,8 @@ class OMWPHandlerResult:
 class OMWPHandlerResult404(OMWPHandlerResult):
     def __init__(self) -> None:
         super().__init__("404 Not Found")
+
+
+class OMWPHandlerResult200(OMWPHandlerResult):
+    def __init__(self, payload: str = "") -> None:
+        super().__init__("200 Ok", payload)
