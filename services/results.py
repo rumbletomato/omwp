@@ -23,3 +23,8 @@ class OMWPHandlerResult404(OMWPHandlerResult):
 class OMWPHandlerResult200(OMWPHandlerResult):
     def __init__(self, payload: str = "") -> None:
         super().__init__("200 Ok", payload)
+
+
+class OMWPHandlerResult500(OMWPHandlerResult):
+    def __init__(self) -> None:
+        super().__init__("500 Internal Server Error")
