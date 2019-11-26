@@ -17,10 +17,20 @@ class HttpMethod(Enum):
 
 
 class RequestInfo:
+    instance = None
+
     def __init__(self) -> None:
         self.path_info: str = ""
         self.http_method: HttpMethod = HttpMethod.GET
         self.headers: dict = {}
+        self.params: dict = {}
 
+    @staticmethod
+    def get_instance():
+        if RequestInfo.instance is None:
+            RequestInfo.instance = RequestInfo()
+        return RequestInfo.instance
 
-request_info: RequestInfo = RequestInfo()
+    @staticmethod
+    def reset_instance():
+        RequestInfo.instance = RequestInfo()

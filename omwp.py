@@ -1,6 +1,6 @@
 from typing import Callable, List
 
-from globals import HttpMethod, request_info
+from globals import HttpMethod, RequestInfo
 from services.results import OMWPHandlerResult
 from services.routing import OMWPRoutingService
 
@@ -10,8 +10,9 @@ class OMWPApplication:
         self.routing_service = OMWPRoutingService()
 
     def fill_request_info(self, environ: dict):
-        global request_info
+        RequestInfo.reset_instance()
 
+        request_info = RequestInfo.get_instance()
         request_info.path_info = environ.get('PATH_INFO')
 
         headers = {}

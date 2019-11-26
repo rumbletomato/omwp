@@ -1,6 +1,7 @@
 from unittest import TestCase
 from unittest.mock import Mock
 
+from globals import RequestInfo
 from omwp import OMWPApplication
 from services.results import OMWPHandlerResult, OMWPHandlerResult200, OMWPHandlerResult500
 
@@ -14,8 +15,7 @@ class RequestObjectTest(TestCase):
     def test_path_info(self) -> None:
         @self.omwp.route('/hello')
         def hello() -> OMWPHandlerResult:
-            from globals import request_info
-
+            request_info = RequestInfo.get_instance()
             return OMWPHandlerResult200(request_info.path_info)
 
         self.environ['PATH_INFO'] = '/hello'
@@ -26,7 +26,7 @@ class RequestObjectTest(TestCase):
     def test_headers(self) -> None:
         @self.omwp.route('/hello')
         def hello() -> OMWPHandlerResult:
-            from globals import request_info
+            request_info = RequestInfo.get_instance()
             if len(request_info.headers.items()) > 0:
                 return OMWPHandlerResult200("Hello")
             else:
@@ -41,7 +41,7 @@ class RequestObjectTest(TestCase):
     def test_http_method(self) -> None:
         @self.omwp.route('/hello')
         def hello() -> OMWPHandlerResult:
-            from globals import request_info
+            request_info = RequestInfo.get_instance()
             return OMWPHandlerResult200(str(request_info.http_method))
 
         self.environ['PATH_INFO'] = '/hello'
@@ -49,3 +49,14 @@ class RequestObjectTest(TestCase):
 
         result = self.omwp(self.environ, self.start_response)
         self.assertEqual(result, [b"POST"])
+
+    def test_params(self) -> None:
+        @self.omwp.route('/hello/<username>')
+        def hello() -> OMWPHandlerResult:
+            request_info = RequestInfo.get_instance()
+            return OMWPHandlerResult200(request_info.params.get('username'))
+
+        self.environ['PATH_INFO'] = '/hello/stranger'
+
+        result = self.omwp(self.environ, self.start_response)
+        self.assertEqual(result, [b"stranger"])

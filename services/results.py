@@ -3,8 +3,8 @@ from typing import Optional
 
 class OMWPHandlerResult:
     def __init__(self, status: str, payload: str = "") -> None:
-        self._payload: str = payload
         self._status: str = status
+        self._payload: str = payload
 
     @property
     def payload(self) -> Optional[bytes]:
@@ -17,7 +17,7 @@ class OMWPHandlerResult:
 
 class OMWPHandlerResult404(OMWPHandlerResult):
     def __init__(self) -> None:
-        super().__init__("404 Not Found")
+        super().__init__("404 Not Found", "I couldn't find it..")
 
 
 class OMWPHandlerResult200(OMWPHandlerResult):
@@ -27,4 +27,4 @@ class OMWPHandlerResult200(OMWPHandlerResult):
 
 class OMWPHandlerResult500(OMWPHandlerResult):
     def __init__(self) -> None:
-        super().__init__("500 Internal Server Error")
+        super().__init__("500 Internal Server Error", "Ooops! Something went wrong...")
